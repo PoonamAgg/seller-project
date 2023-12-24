@@ -7,18 +7,22 @@ const AddUser = () => {
   const [productname, setProductName] = useState("");
   const [user, setUser] = useState([]);
 
+  
   useEffect(() => {
-    const localStorageObj = localStorage;
-    const localStorageKeys = Object.keys(localStorageObj);
-    const loadedItem = [];
-    for (let i = 0; i < localStorageKeys; i++) {
+    const localStorageKeys = Object.keys(localStorage);
+    const loadedItems = [];
+
+    for (let i = 0; i < localStorageKeys.length; i++) {
       const key = localStorageKeys[i];
-      const itemDetailsString = localStorageObj[key];
-      const updatedItemDetails = JSON.parse(itemDetailsString);
-      loadedItem.push(updatedItemDetails);
+      const itemDetailsString = localStorage.getItem(key);
+      const updatedItemDetails = itemDetailsString ? JSON.parse(itemDetailsString) : null;
+      if (updatedItemDetails) {
+        loadedItems.push(updatedItemDetails);
+      }
     }
-    setUser(loadedItem);
-  }, []);
+
+    setUser(loadedItems);
+  }, []);
 
   const idHandler = (e) => {
     setProductId(e.target.value);
